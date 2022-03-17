@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="cart_item"
+            type="com.example.androidshoptest.model.entity.CartItem" />
+    </data>
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="#F4F0F0"
+        android:elevation="8dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="12dp">
+
+        <ImageView
+            android:id="@+id/ivShoppingImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{cart_item.imageUrl}"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:srcCompat="@tools:sample/avatars"/>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@{cart_item.name}"
+            android:layout_marginLeft="16dp"
+            android:textSize="28sp"
+            app:layout_constraintStart_toEndOf="@+id/tvShoppingItemAmount"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvShoppingItemAmount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:amountText="@{cart_item.amount}"
+            android:text="5X"
+            android:layout_marginLeft="16dp"
+            android:textSize="28sp"
+            app:layout_constraintStart_toEndOf="@+id/ivShoppingImage"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tvShoppingItemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:priceText="@{cart_item.price}"
+            android:text="100$"
+            android:layout_marginLeft="16dp"
+            android:textSize="20sp"
+            app:layout_constraintStart_toEndOf="@+id/ivShoppingImage"
+            app:layout_constraintTop_toBottomOf="@+id/tvShoppingItemAmount" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
