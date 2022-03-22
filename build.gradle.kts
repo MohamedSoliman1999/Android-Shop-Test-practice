@@ -3,12 +3,15 @@ plugins {
     id ("com.android.application") version "7.1.2" apply false
     id ("com.android.library") version "7.1.2" apply false
     id ("org.jetbrains.kotlin.android") version "1.6.10" apply false
+    id ("org.jetbrains.kotlin.plugin.allopen") version "1.6.10" apply false
 }
+
 buildscript {
     dependencies {
         classpath("com.google.dagger:hilt-android-gradle-plugin:2.41")
         val nav_version = "2.4.1"
         classpath("androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version")
+        classpath ("org.jetbrains.kotlin:kotlin-allopen:1.6.10")
     }
 }
 tasks.register(name = "type", type = Delete::class) {

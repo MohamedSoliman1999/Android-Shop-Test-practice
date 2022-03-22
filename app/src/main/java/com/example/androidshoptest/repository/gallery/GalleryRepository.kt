@@ -5,5 +5,5 @@ import com.example.androidshoptest.model.datatransfer.ImageResponse
 import kotlinx.coroutines.flow.Flow
 
 interface GalleryRepository {
-    suspend fun searchForImage(query: String):ImageResponse// Flow<ImageResponse>
+    suspend fun searchForImage(query: String):ImageResponse?// Flow<ImageResponse>
 }

@@ -14,6 +14,7 @@ class CartItemAdapter: ListAdapter<CartItem, CartItemAdapter.CartViewHolder>(Car
     inner class CartViewHolder(private val binding:CartItemBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
             binding.cartItem=currentList[position]
+            binding.executePendingBindings()
         }
     }
 

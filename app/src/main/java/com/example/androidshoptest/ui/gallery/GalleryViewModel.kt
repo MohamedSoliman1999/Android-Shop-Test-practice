@@ -8,7 +8,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.androidshoptest.mainstate.MainState
 import com.example.androidshoptest.model.datatransfer.ImageResponse
 import com.example.androidshoptest.model.entity.CartItem
+import com.example.androidshoptest.repository.cart.CartRepository
 import com.example.androidshoptest.repository.cart.CartRepositoryImpl
+import com.example.androidshoptest.repository.gallery.GalleryRepository
 import com.example.androidshoptest.repository.gallery.GalleryRepositoryImpl
 import com.example.androidshoptest.util.Constants
 import com.example.androidshoptest.util.Events
@@ -21,8 +23,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class GalleryViewModel @Inject constructor(
-    private val galleryRepo: GalleryRepositoryImpl,
-    private val cartRpo: CartRepositoryImpl
+    private val galleryRepo: GalleryRepository,
+    private val cartRpo: CartRepository
 ) : ViewModel() {
     val getShoppingItems = cartRpo.observeAllShoppingItem()
     val totalPrice = cartRpo.observeTotalPrice()
@@ -56,7 +58,7 @@ class GalleryViewModel @Inject constructor(
         _imageResponse.value = MainState.Loading()
         viewModelScope.launch {
             _imageResponse.value = try {
-                val data = galleryRepo.searchForImage(query)
+                val data = galleryRepo.searchForImage(query)!!
 //                    .stateIn(viewModelScope, SharingStarted.Lazily, null).value!!
                 MainState.Success(data)
             } catch (e: Exception) {

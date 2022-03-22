@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -17,16 +18,23 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CartFragment : Fragment() {
+class CartFragment() : Fragment() {
     private var _binding:FragmentCartBinding?=null
     private val binding get() = _binding!!
-    private val cartListViewModel:CartListViewModel by viewModels()
-    private val cartAdapter:CartItemAdapter by lazy{ CartItemAdapter() }
+    var _cartListViewModel:CartListViewModel?=null
+    private val cartListViewModel:CartListViewModel get() = _cartListViewModel!!
+    val cartAdapter:CartItemAdapter by lazy{ CartItemAdapter() }
+    constructor(cartListViewModel:CartListViewModel):this(){
+        this._cartListViewModel=cartListViewModel
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
+        if(_cartListViewModel==null){
+            _cartListViewModel = ViewModelProvider(requireActivity())[CartListViewModel::class.java]
+        }
         _binding=FragmentCartBinding.inflate(inflater, container, false)
         return binding.root
     }

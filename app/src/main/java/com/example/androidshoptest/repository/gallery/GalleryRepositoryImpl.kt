@@ -18,19 +18,19 @@ class GalleryRepositoryImpl@Inject constructor(
     }*/
 
 
-
-//    Flow<ImageResponse> {
-//        return try {
-//            val response = pixabayAPI.searchImage(query)
-//            if (response.isSuccessful){
-//                response.body()?.let {imageResponse ->
-//                    return@let MainState.Success(imageResponse)
-//                }?: MainState.Error(Throwable("An unknown error occurred"))
-//            }else{
-//                MainState.Error(Throwable("An unknown error occurred"))
-//            }
-//        }catch (e: Exception){
-//            return MainState.Error(e)
-//        }
-//    }
+/*
+    Flow<ImageResponse> {
+        return try {
+            val response = pixabayAPI.searchImage(query)
+            if (response.isSuccessful){
+                response.body()?.let {imageResponse ->
+                    return@let MainState.Success(imageResponse)
+                }?: MainState.Error(Throwable("An unknown error occurred"))
+            }else{
+                MainState.Error(Throwable("An unknown error occurred"))
+            }
+        }catch (e: Exception){
+            return MainState.Error(e)
+        }
+    }*/
 }

@@ -1,7 +1,6 @@
 package com.example.androidshoptest.ui.gallery
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.androidshoptest.databinding.FragmentGalleryBinding
@@ -25,14 +24,15 @@ import kotlinx.coroutines.launch
 @AndroidEntryPoint
 class GalleryFragment : Fragment(), GalleryReactors {
     private var _binding: FragmentGalleryBinding?=null
-    private val binding get() = _binding!!
-    private val galleryViewModel: GalleryViewModel by activityViewModels()
-    private val adapter by lazy {GalleryAdapter(this)}
+    val binding get() = _binding!!
+    lateinit var galleryViewModel: GalleryViewModel //by activityViewModels()
+    val imageAdapter by lazy {GalleryAdapter(this)}
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        galleryViewModel = ViewModelProvider(requireActivity())[GalleryViewModel::class.java]
         // Inflate the layout for this fragment
         _binding=FragmentGalleryBinding.inflate(inflater, container, false)
         return binding.root
@@ -58,7 +58,7 @@ class GalleryFragment : Fragment(), GalleryReactors {
                 }
             }
         }
-        binding.rvImages.adapter=adapter
+        binding.rvImages.adapter=imageAdapter
     }
     private fun initObservers(){
         lifecycleScope.launch {
@@ -72,7 +72,7 @@ class GalleryFragment : Fragment(), GalleryReactors {
                     }
                     is MainState.Success->{
                         binding.progressBar.visibility=View.GONE
-                        adapter.submitList(it.data!!.hits.map { imageResult ->
+                        imageAdapter.submitList(it.data!!.hits.map { imageResult ->
                             imageResult.previewURL
                         })
                     }

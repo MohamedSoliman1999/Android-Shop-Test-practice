@@ -2,19 +2,17 @@ package com.example.androidshoptest.ui.cartlist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.androidshoptest.db.CartDao
 import com.example.androidshoptest.model.entity.CartItem
-import com.example.androidshoptest.repository.cart.CartRepositoryImpl
+import com.example.androidshoptest.repository.cart.CartRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 @HiltViewModel
 class CartListViewModel @Inject constructor(
-    private val cartDao:CartDao,
-    private val cartRepo:CartRepositoryImpl
+    private val cartRepo: CartRepository
 ): ViewModel(){
-    val cartItems=cartDao.observeAllShoppingItems()
-    val cartTotalPrice=cartDao.observeTotalPrice()
+    val cartItems=cartRepo.observeAllShoppingItem()
+    val cartTotalPrice=cartRepo.observeTotalPrice()
     fun deleteCartItem(cartItem: CartItem){
         viewModelScope.launch {
             cartRepo.deleteShoppingItem(cartItem)

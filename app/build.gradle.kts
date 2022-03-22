@@ -9,8 +9,12 @@ plugins {
     id("androidx.navigation.safeargs.kotlin")
     id("kotlin-parcelize")
     id("com.google.devtools.ksp").version("1.6.0-1.0.1")
+    id("kotlin-allopen")
 }
-
+allOpen {
+    annotation("com.my.Annotation")
+    // annotations("com.another.Annotation", "com.third.Annotation")
+}
 android {
     compileSdk= 31
 
@@ -22,7 +26,8 @@ android {
         versionName ="1.0"
 //        TODO:API_KEY
         buildConfigField("String","API_KEY", properties["API_KEY"].toString())
-        testInstrumentationRunner ="androidx.test.runner.AndroidJUnitRunner"
+//        testInstrumentationRunner ="androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner ="com.example.androidshoptest.HiltTestRunner"
     }
 
     buildTypes {
@@ -108,6 +113,7 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-process:$lifecycle_version")
     // optional - ReactiveStreams support for LiveData
     implementation("androidx.lifecycle:lifecycle-reactivestreams-ktx:$lifecycle_version")
+
 //Room
     val roomVersion = "2.4.2"
     implementation("androidx.room:room-runtime:$roomVersion")
@@ -181,8 +187,11 @@ dependencies {
     androidTestImplementation ("androidx.test.ext:junit:1.1.3")
     androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation ("org.mockito:mockito-core:4.3.1")
+    androidTestImplementation ("org.mockito:mockito-android:4.3.1")
     debugImplementation ("androidx.fragment:fragment-testing:1.5.0-alpha03")
-    androidTestImplementation ("androidx.test.espresso:espresso-contrib:3.4.0")
+    androidTestImplementation ("androidx.test.espresso:espresso-contrib:3.4.0"){
+        exclude(group = "org.checkerframework", module = "checker")
+    }
     //hilt
     // For instrumented tests.
     androidTestImplementation("com.google.dagger:hilt-android-testing:2.38.1")

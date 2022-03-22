@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.api.load
@@ -25,12 +26,13 @@ import kotlinx.coroutines.launch
 class NewCartItemFragment : Fragment() {
     private var _binding: FragmentNewCartItemBinding? = null
     private val binding get() = _binding!!
-    private val galleryViewModel: GalleryViewModel by activityViewModels()
+    lateinit var galleryViewModel: GalleryViewModel //by activityViewModels()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
+        galleryViewModel = ViewModelProvider(requireActivity())[GalleryViewModel::class.java]
         _binding = FragmentNewCartItemBinding.inflate(inflater, container, false)
         return binding.root
     }
