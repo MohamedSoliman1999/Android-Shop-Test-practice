@@ -9,13 +9,16 @@ import kotlinx.coroutines.flow.flow
 import java.lang.Exception
 import javax.inject.Inject
 
-class GalleryRepositoryImpl@Inject constructor(
+open class GalleryRepositoryImpl@Inject constructor(
 //    private val context: Context,
     private val pixabayAPI: PixabayAPI
 ):GalleryRepository {
     override suspend fun searchForImage(query: String)=pixabayAPI.searchImage(query) /*flow {
         emit(pixabayAPI.searchImage(query))
     }*/
+    suspend fun searchForImageTest(query: String,key:String)=flow {
+        emit(pixabayAPI.searchImage(query,key))
+    }
 
 
 /*

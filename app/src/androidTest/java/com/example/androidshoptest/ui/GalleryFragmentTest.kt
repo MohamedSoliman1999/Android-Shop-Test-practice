@@ -28,6 +28,7 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.mockito.junit.MockitoJUnitRunner
 import javax.inject.Inject
+import javax.inject.Named
 
 @HiltAndroidTest
 @MediumTest
@@ -38,11 +39,13 @@ class GalleryFragmentTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
-    @Inject
-    lateinit var fragmentFactory: ShoppingFragmentFactoryAndroidTest
-
     @get:Rule
     val hiltRule = HiltAndroidRule(this)
+
+    @Inject
+    @Named("test_fragment_factory")
+    lateinit var fragmentFactory: ShoppingFragmentFactoryAndroidTest
+
 
     //    @Inject
 //    @Named("test_db") //need named annotation to tell hilt to where to inject from

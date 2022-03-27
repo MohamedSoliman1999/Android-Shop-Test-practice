@@ -12,21 +12,24 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
-//@InstallIn(SingletonComponent::class)
-//@Module
-//object RepositoryModuleTest {
-//    @Provides
+@Module
+@InstallIn(SingletonComponent::class)
+object RepositoryModuleTest {
+    @Provides
 //    @Singleton
-//    fun provideGalleryRepositoryTest(
-//    ): GalleryRepository {
-//        return MockGalleryRepositoryAndroidTest()
-//    }
-//    @Provides
+    @Named("gallery_test_repo")
+    fun provideGalleryRepositoryTest(
+    ): GalleryRepository {
+        return MockGalleryRepositoryAndroidTest()
+    }
+    @Provides
 //    @Singleton
-//    fun provideCartRepositoryTest(
-//    ): CartRepository {
-//        return MockCartRepositoryAndroidTest()
-//    }
-//}
+    @Named("cart_test_repo")
+    fun provideCartRepositoryTest(
+    ): CartRepository {
+        return MockCartRepositoryAndroidTest()
+    }
+}

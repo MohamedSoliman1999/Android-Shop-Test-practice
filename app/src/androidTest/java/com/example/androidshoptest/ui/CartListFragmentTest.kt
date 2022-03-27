@@ -10,6 +10,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.filters.MediumTest
 import com.example.androidshoptest.R
 import com.example.androidshoptest.data.remote.MockCartRepositoryAndroidTest
+import com.example.androidshoptest.data.remote.MockGalleryRepositoryAndroidTest
 import com.example.androidshoptest.getOrAwaitValue
 import com.example.androidshoptest.launchFragmentInHiltContainer
 import com.example.androidshoptest.model.entity.CartItem
@@ -26,6 +27,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
 import javax.inject.Inject
+import javax.inject.Named
 
 @MediumTest
 @HiltAndroidTest
@@ -38,6 +40,7 @@ class CartListFragmentTest {
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Inject
+    @Named("test_fragment_factory")
     lateinit var testFragmentFactoryAndroidTest: ShoppingFragmentFactoryAndroidTest
 
     @Before
@@ -47,8 +50,8 @@ class CartListFragmentTest {
 
     @Test
     fun swipeShoppingItem_deleteItemInDb(){
+        var testViewModel= CartListViewModel(MockCartRepositoryAndroidTest())
         val shoppingItem = CartItem("test",1,1f,"testurl",1)
-        var testViewModel = CartListViewModel(MockCartRepositoryAndroidTest())
         launchFragmentInHiltContainer<CartFragment>(
             fragmentFactory = testFragmentFactoryAndroidTest
         ) {

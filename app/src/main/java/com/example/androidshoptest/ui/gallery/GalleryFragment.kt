@@ -72,7 +72,7 @@ class GalleryFragment : Fragment(), GalleryReactors {
                     }
                     is MainState.Success->{
                         binding.progressBar.visibility=View.GONE
-                        imageAdapter.submitList(it.data!!.hits.map { imageResult ->
+                        imageAdapter.submitList(it.data!!.hits?.map { imageResult ->
                             imageResult.previewURL
                         })
                     }

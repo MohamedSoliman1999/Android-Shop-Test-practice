@@ -172,7 +172,10 @@ dependencies {
     testImplementation ("org.robolectric:robolectric:4.3.1")
     testImplementation ("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.0")
     testImplementation ("com.google.truth:truth:1.1.3")
-    androidTestImplementation ("com.google.truth:truth:1.1.3")
+    testImplementation ("app.cash.turbine:turbine:0.5.2")
+    testImplementation("com.squareup.okhttp3:mockwebserver:4.9.3")
+    testImplementation ("io.mockk:mockk-android:1.12.0")
+    testImplementation ("io.mockk:mockk:1.12.0")
     testImplementation ("org.mockito:mockito-core:4.3.1")
 //    hiltRule
     // For Robolectric tests.
@@ -189,6 +192,7 @@ dependencies {
     androidTestImplementation ("org.mockito:mockito-core:4.3.1")
     androidTestImplementation ("org.mockito:mockito-android:4.3.1")
     debugImplementation ("androidx.fragment:fragment-testing:1.5.0-alpha03")
+    androidTestImplementation ("app.cash.turbine:turbine:0.5.2")
     androidTestImplementation ("androidx.test.espresso:espresso-contrib:3.4.0"){
         exclude(group = "org.checkerframework", module = "checker")
     }

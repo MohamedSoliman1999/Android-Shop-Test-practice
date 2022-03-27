@@ -3,8 +3,9 @@ package com.example.androidshoptest.data.remote
 import com.example.androidshoptest.mainstate.MainState
 import com.example.androidshoptest.model.datatransfer.ImageResponse
 import com.example.androidshoptest.repository.gallery.GalleryRepository
+import javax.inject.Inject
 
-class MockGalleryRepositoryAndroidTest: GalleryRepository {
+open class MockGalleryRepositoryAndroidTest@Inject constructor(): GalleryRepository {
 
     private var shouldReturnNetworkError = false
     override suspend fun searchForImage(query: String): ImageResponse? {

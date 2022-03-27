@@ -5,7 +5,7 @@ import com.example.androidshoptest.db.CartDao
 import com.example.androidshoptest.model.entity.CartItem
 import javax.inject.Inject
 
-class CartRepositoryImpl@Inject constructor(
+open class CartRepositoryImpl@Inject constructor(
     private val shoppingDao: CartDao
 ):CartRepository {
     override suspend fun insertShoppingItem(shoppingItem: CartItem) {

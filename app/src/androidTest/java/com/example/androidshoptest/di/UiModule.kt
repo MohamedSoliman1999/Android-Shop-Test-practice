@@ -1,9 +1,6 @@
 package com.example.androidshoptest.di
 
 import android.content.Context
-import androidx.room.Room
-import androidx.test.core.app.ApplicationProvider
-import com.example.androidshoptest.db.AppDatabase
 import com.example.androidshoptest.ui.ShoppingFragmentFactoryAndroidTest
 import dagger.Module
 import dagger.Provides
@@ -14,13 +11,9 @@ import javax.inject.Named
 
 @Module
 @InstallIn(SingletonComponent::class)
-object DatabaseModuleTesting {
+object UiModule {
     @Provides
-    @Named("test_db")
-    fun provideAppDatabase(@ApplicationContext context: Context) =
-        Room.inMemoryDatabaseBuilder(context, AppDatabase::class.java)
-            .allowMainThreadQueries()
-            .build()
-
-
+    @Named("test_fragment_factory")
+    fun provideFragmentFactory() =
+        ShoppingFragmentFactoryAndroidTest()
 }

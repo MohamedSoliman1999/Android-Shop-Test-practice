@@ -4,8 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.androidshoptest.model.entity.CartItem
 import com.example.androidshoptest.repository.cart.CartRepository
+import javax.inject.Inject
 
-class MockCartRepositoryAndroidTest:CartRepository {
+open class MockCartRepositoryAndroidTest@Inject constructor():CartRepository {
     private val shoppingItems = mutableListOf<CartItem>()
     private val observableShoppingItems = MutableLiveData<List<CartItem>>(shoppingItems)
     private val observableTotalPrice = MutableLiveData<Float>()

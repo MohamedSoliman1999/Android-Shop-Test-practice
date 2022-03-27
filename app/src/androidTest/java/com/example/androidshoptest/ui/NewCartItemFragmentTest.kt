@@ -27,6 +27,7 @@ import org.mockito.Mockito.*
 import com.google.common.truth.Truth.assertThat
 import org.mockito.Mockito
 import javax.inject.Inject
+import javax.inject.Named
 
 
 @HiltAndroidTest
@@ -40,6 +41,7 @@ class NewCartItemFragmentTest {
     var instantTaskExecutorRule = InstantTaskExecutorRule()
 
     @Inject
+    @Named("test_fragment_factory")
     lateinit var fragmentFactory: ShoppingFragmentFactoryAndroidTest
     lateinit var testViewModel: GalleryViewModel
     @Before
