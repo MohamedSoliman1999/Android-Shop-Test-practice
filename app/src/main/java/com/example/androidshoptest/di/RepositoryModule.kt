@@ -20,10 +20,10 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideGalleryRepository(
-//        @ApplicationContext appContext: Context,
+        @ApplicationContext appContext: Context,
         pixabayAPI:PixabayAPI
     ): GalleryRepository {
-        return GalleryRepositoryImpl(/*appContext,*/ pixabayAPI = pixabayAPI)
+        return GalleryRepositoryImpl(appContext, pixabayAPI = pixabayAPI)
     }
     @Provides
     @Singleton

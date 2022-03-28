@@ -16,6 +16,8 @@ import com.example.androidshoptest.mainstate.MainState
 import com.example.androidshoptest.ui.adapter.GalleryAdapter
 import com.example.androidshoptest.ui.adapter.GalleryReactors
 import com.example.androidshoptest.util.Constants.SEARCH_TIME_DELAY
+import com.example.androidshoptest.util.collectLatestLifeCycleFlow
+import com.example.androidshoptest.util.collectLifeCycleFlow
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -61,25 +63,23 @@ class GalleryFragment : Fragment(), GalleryReactors {
         binding.rvImages.adapter=imageAdapter
     }
     private fun initObservers(){
-        lifecycleScope.launch {
-            galleryViewModel.imageResponse.collectLatest {
-                when(it){
-                    is MainState.Idle->{
+        requireActivity().collectLifeCycleFlow(galleryViewModel.imageResponse){
+            when(it){
+                is MainState.Idle->{
 
-                    }
-                    is MainState.Loading ->{
-                        binding.progressBar.visibility=View.VISIBLE
-                    }
-                    is MainState.Success->{
-                        binding.progressBar.visibility=View.GONE
-                        imageAdapter.submitList(it.data!!.hits?.map { imageResult ->
-                            imageResult.previewURL
-                        })
-                    }
-                    is MainState.Error ->{
-                        binding.progressBar.visibility=View.GONE
-                        Toast.makeText(requireContext(), "${it.throwable!!.message}", Toast.LENGTH_SHORT).show()
-                    }
+                }
+                is MainState.Loading ->{
+                    binding.progressBar.visibility=View.VISIBLE
+                }
+                is MainState.Success->{
+                    binding.progressBar.visibility=View.GONE
+                    imageAdapter.submitList(it.data!!.hits?.map { imageResult ->
+                        imageResult.previewURL
+                    })
+                }
+                is MainState.Error ->{
+                    binding.progressBar.visibility=View.GONE
+                    Toast.makeText(requireContext(), "${it.throwable!!.message}", Toast.LENGTH_SHORT).show()
                 }
             }
         }

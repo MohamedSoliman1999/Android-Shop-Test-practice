@@ -1,6 +1,7 @@
 package com.example.androidshoptest.network
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
 import com.example.androidshoptest.repository.gallery.GalleryRepositoryImpl
@@ -44,12 +45,12 @@ class GalleryRepositoryTest : TestCase() {
             .addConverterFactory(MoshiConverterFactory.create())
             .build()
             .create(PixabayAPI::class.java)
-        repo = GalleryRepositoryImpl(api)
+        repo = GalleryRepositoryImpl(ApplicationProvider.getApplicationContext(),api)
     }
 
     @Test
     fun testGalleryApi() = runBlocking {
-        repo.searchForImageTest("v", "21657372-9067a0038327ae13275c76dc1").collectLatest {
+        repo.searchForImage("v", "21657372-9067a0038327ae13275c76dc1").collectLatest {
             assertThat(it.hits.size).isEqualTo(20)
         }
     }

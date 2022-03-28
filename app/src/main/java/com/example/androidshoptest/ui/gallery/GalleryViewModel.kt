@@ -32,7 +32,9 @@ class GalleryViewModel @Inject constructor(
 
     val galleryIntent = Channel<GalleryIntent<String>>(Channel.UNLIMITED)
 
-    private val _imageResponse = MutableStateFlow<MainState<ImageResponse>>(MainState.Idle())
+//    private val _imageResponse = MutableStateFlow<MainState<ImageResponse>>(MainState.Idle())
+//    to cash the emitted image
+    private val _imageResponse = MutableSharedFlow<MainState<ImageResponse>>(replay = 1)
     val imageResponse get() = _imageResponse
     val selectedImageUrl = MutableLiveData<String>()
 
@@ -41,6 +43,7 @@ class GalleryViewModel @Inject constructor(
     }
 
     private fun handleIntent() {
+        var t=0
         viewModelScope.launch {
             galleryIntent.consumeAsFlow().collect {
                 when (it) {
@@ -55,23 +58,18 @@ class GalleryViewModel @Inject constructor(
             return
         }
         Log.e("searchImage", "Loading")
-        _imageResponse.value = MainState.Loading()
         viewModelScope.launch {
-            _imageResponse.value = try {
-                val data = galleryRepo.searchForImage(query)!!
-//                    .stateIn(viewModelScope, SharingStarted.Lazily, null).value!!
-                MainState.Success(data)
+             try {
+                 _imageResponse.emit(MainState.Loading())
+                galleryRepo.searchForImage(query).collectLatest {data->
+                    _imageResponse.emit(MainState.Success(data!!))
+                }
             } catch (e: Exception) {
                 Log.e("searchImage", "Error ${e.message}")
-                MainState.Error(e)
+                 imageResponse.emit(MainState.Error(e))
             }
         }
 
-//        _images.value = Events(Resource.loading(null))
-//        viewModelScope.launch {
-//            val response = repository.searchForImage(query)
-//            _images.value = Events(response)
-//        }
     }
 
     private val _insertShoppingItem = MutableLiveData<Events<MainState<CartItem>>>()

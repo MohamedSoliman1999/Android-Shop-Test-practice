@@ -10,14 +10,11 @@ import java.lang.Exception
 import javax.inject.Inject
 
 open class GalleryRepositoryImpl@Inject constructor(
-//    private val context: Context,
+    val context: Context,
     private val pixabayAPI: PixabayAPI
 ):GalleryRepository {
-    override suspend fun searchForImage(query: String)=pixabayAPI.searchImage(query) /*flow {
+    override suspend fun searchForImage(query: String,key:String)=flow {
         emit(pixabayAPI.searchImage(query))
-    }*/
-    suspend fun searchForImageTest(query: String,key:String)=flow {
-        emit(pixabayAPI.searchImage(query,key))
     }
 
 
