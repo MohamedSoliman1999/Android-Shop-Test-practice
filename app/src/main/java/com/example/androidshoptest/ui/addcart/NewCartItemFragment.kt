@@ -76,6 +76,7 @@ class NewCartItemFragment : Fragment() {
                             Snackbar.LENGTH_LONG
                         ).show()
                     }
+                    is MainState.Idle -> TODO()
                 }
             }
 

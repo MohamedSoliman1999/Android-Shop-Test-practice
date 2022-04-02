@@ -13,7 +13,7 @@ import com.example.androidshoptest.databinding.GalleryItemBinding
 class GalleryAdapter(private val galleryReactor:GalleryReactors):ListAdapter<String, GalleryAdapter.GalleryViewHolder>(GalleryDIffUtil) {
     private val differ = AsyncListDiffer(this, GalleryDIffUtil)
 
-    inner class GalleryViewHolder(private val binding:GalleryItemBinding,galleryReactor:GalleryReactors):RecyclerView.ViewHolder(binding.root){
+    inner class GalleryViewHolder(private val binding:GalleryItemBinding,private val galleryReactor:GalleryReactors):RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
             binding.url=currentList[position]
             binding.galleryReactors=galleryReactor

@@ -43,7 +43,6 @@ class GalleryViewModel @Inject constructor(
     }
 
     private fun handleIntent() {
-        var t=0
         viewModelScope.launch {
             galleryIntent.consumeAsFlow().collect {
                 when (it) {
@@ -61,7 +60,7 @@ class GalleryViewModel @Inject constructor(
         viewModelScope.launch {
              try {
                  _imageResponse.emit(MainState.Loading())
-                galleryRepo.searchForImage(query).collectLatest {data->
+                galleryRepo.searchForImage(query,"21657372-9067a0038327ae13275c76dc1").collectLatest {data->
                     _imageResponse.emit(MainState.Success(data!!))
                 }
             } catch (e: Exception) {

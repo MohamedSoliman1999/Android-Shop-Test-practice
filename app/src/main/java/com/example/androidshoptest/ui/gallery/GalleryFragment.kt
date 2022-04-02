@@ -73,7 +73,7 @@ class GalleryFragment : Fragment(), GalleryReactors {
                 }
                 is MainState.Success->{
                     binding.progressBar.visibility=View.GONE
-                    imageAdapter.submitList(it.data!!.hits?.map { imageResult ->
+                    imageAdapter.submitList(it.data!!.hits.map { imageResult ->
                         imageResult.previewURL
                     })
                 }
@@ -84,10 +84,10 @@ class GalleryFragment : Fragment(), GalleryReactors {
             }
         }
     }
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding=null
-    }
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        _binding=null
+//    }
 
     override fun onGalleryItemClicked(url: String) {
         lifecycleScope.launch {

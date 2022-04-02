@@ -53,6 +53,10 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+//    Activating default return values for mocked methods in android.jar
+    testOptions {
+        unitTests.isReturnDefaultValues = true
+    }
     packagingOptions {
         resources.excludes.add("META-INF/*")
         /*
@@ -66,6 +70,10 @@ android {
     buildFeatures{
         dataBinding=true
         viewBinding=true
+    }
+    configurations.all{
+//        add any library that make any undefined issue
+        resolutionStrategy.force("com.google.findbugs:jsr305:3.0.0")
     }
 }
 

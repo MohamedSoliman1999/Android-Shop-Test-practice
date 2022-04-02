@@ -43,13 +43,17 @@ class NewCartItemFragmentTest {
     @Inject
     @Named("test_fragment_factory")
     lateinit var fragmentFactory: ShoppingFragmentFactoryAndroidTest
+    @Inject
+    lateinit var mockGalleryRepositoryAndroidTest:MockGalleryRepositoryAndroidTest
+    @Inject
+    lateinit var mockCartRepositoryAndroidTest: MockCartRepositoryAndroidTest
     lateinit var testViewModel: GalleryViewModel
     @Before
     fun setup() {
         hiltAndroidRule.inject()
         testViewModel = GalleryViewModel(
-            MockGalleryRepositoryAndroidTest(),
-            MockCartRepositoryAndroidTest()
+            mockGalleryRepositoryAndroidTest,
+            mockCartRepositoryAndroidTest
         )
     }
 
