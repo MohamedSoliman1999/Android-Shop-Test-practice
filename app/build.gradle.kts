@@ -27,7 +27,7 @@ android {
 //        TODO:API_KEY
         buildConfigField("String","API_KEY", properties["API_KEY"].toString())
 //        testInstrumentationRunner ="androidx.test.runner.AndroidJUnitRunner"
-        testInstrumentationRunner ="com.example.androidshoptest.HiltTestRunner"
+        testInstrumentationRunner ="com.example.androidshoptest.util.HiltTestRunner"
     }
 
     buildTypes {

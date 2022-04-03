@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -34,7 +36,7 @@ class GalleryFragment : Fragment(), GalleryReactors {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        galleryViewModel = ViewModelProvider(requireActivity())[GalleryViewModel::class.java]
+        galleryViewModel = ViewModelProvider(this)[GalleryViewModel::class.java]
         // Inflate the layout for this fragment
         _binding=FragmentGalleryBinding.inflate(inflater, container, false)
         return binding.root
@@ -84,14 +86,15 @@ class GalleryFragment : Fragment(), GalleryReactors {
             }
         }
     }
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        _binding=null
-//    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
     override fun onGalleryItemClicked(url: String) {
         lifecycleScope.launch {
             galleryViewModel.selectedImageUrl.postValue(url)
+            setFragmentResult("selected_image", bundleOf("bundle_selected_image" to url))
             findNavController().popBackStack()
         }
     }

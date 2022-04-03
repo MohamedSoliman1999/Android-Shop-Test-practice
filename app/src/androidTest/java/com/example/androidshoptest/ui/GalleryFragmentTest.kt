@@ -1,6 +1,10 @@
 package com.example.androidshoptest.ui
 
+import android.os.Bundle
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import androidx.core.os.bundleOf
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.test.espresso.Espresso
@@ -16,6 +20,7 @@ import com.example.androidshoptest.launchFragmentInHiltContainer
 import com.example.androidshoptest.ui.adapter.GalleryAdapter
 import com.example.androidshoptest.ui.gallery.GalleryFragment
 import com.example.androidshoptest.ui.gallery.GalleryViewModel
+import com.example.androidshoptest.util.ResultListenerFragment
 import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
@@ -85,5 +90,14 @@ class GalleryFragmentTest {
         Mockito.verify(navController).popBackStack()
         assertThat(testViewModel.selectedImageUrl.getOrAwaitValue()).isEqualTo(imageUrl)
     }
-
+    @Test
+    fun testFragmentResultListener() {
+        val scenario = launchFragmentInHiltContainer<ResultListenerFragment>(
+            fragmentFactory = fragmentFactory
+        ){
+            val expectedResult = "result"
+            parentFragmentManager.setFragmentResult("requestKey", bundleOf("bundleKey" to expectedResult))
+            assertThat(result).isEqualTo(expectedResult)
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.androidshoptest
+package com.example.androidshoptest.util
 
 import android.app.Application
 import android.content.Context

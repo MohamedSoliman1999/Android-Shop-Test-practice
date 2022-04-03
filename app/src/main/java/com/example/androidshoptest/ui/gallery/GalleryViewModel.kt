@@ -1,5 +1,6 @@
 package com.example.androidshoptest.ui.gallery
 
+import android.annotation.SuppressLint
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -34,8 +35,8 @@ class GalleryViewModel @Inject constructor(
 
 //    private val _imageResponse = MutableStateFlow<MainState<ImageResponse>>(MainState.Idle())
 //    to cash the emitted image
-    private val _imageResponse = MutableSharedFlow<MainState<ImageResponse>>(replay = 1)
-    val imageResponse get() = _imageResponse
+    private var _imageResponse:MutableSharedFlow<MainState<ImageResponse>>? = MutableSharedFlow(replay = 1)
+    val imageResponse get() = _imageResponse!!
     val selectedImageUrl = MutableLiveData<String>()
 
     init {
@@ -59,13 +60,13 @@ class GalleryViewModel @Inject constructor(
         Log.e("searchImage", "Loading")
         viewModelScope.launch {
              try {
-                 _imageResponse.emit(MainState.Loading())
+                 _imageResponse!!.emit(MainState.Loading())
                 galleryRepo.searchForImage(query,"21657372-9067a0038327ae13275c76dc1").collectLatest {data->
-                    _imageResponse.emit(MainState.Success(data!!))
+                    _imageResponse!!.emit(MainState.Success(data!!))
                 }
             } catch (e: Exception) {
                 Log.e("searchImage", "Error ${e.message}")
-                 imageResponse.emit(MainState.Error(e))
+                 _imageResponse!!.emit(MainState.Error(e))
             }
         }
 
@@ -109,4 +110,5 @@ class GalleryViewModel @Inject constructor(
     fun insertShoppingItemInDB(shoppingItem: CartItem) = viewModelScope.launch {
         cartRpo.insertShoppingItem(shoppingItem)
     }
+
 }

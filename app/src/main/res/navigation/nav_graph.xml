@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_cart" >
         <action
             android:id="@+id/action_cartFragment_to_newCartItemFragment"
-            app:destination="@id/newCartItemFragment" />
+            app:destination="@id/newCartItemFragment"
+            app:popUpTo="@id/cartFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
     <fragment
         android:id="@+id/galleryFragment"
@@ -26,6 +28,8 @@
         tools:layout="@layout/fragment_new_cart_item" >
         <action
             android:id="@+id/action_newCartItemFragment_to_galleryFragment"
-            app:destination="@id/galleryFragment" />
+            app:destination="@id/galleryFragment"
+            app:popUpTo="@id/newCartItemFragment"
+            app:popUpToInclusive="false"/>
     </fragment>
 </navigation>

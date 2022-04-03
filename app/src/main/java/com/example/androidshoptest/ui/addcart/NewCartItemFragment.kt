@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -32,7 +33,7 @@ class NewCartItemFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         // Inflate the layout for this fragment
-        galleryViewModel = ViewModelProvider(requireActivity())[GalleryViewModel::class.java]
+        galleryViewModel = ViewModelProvider(this)[GalleryViewModel::class.java]
         _binding = FragmentNewCartItemBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -45,15 +46,25 @@ class NewCartItemFragment : Fragment() {
 
     private fun initObservers() {
         lifecycleScope.launch {
-            galleryViewModel.selectedImageUrl.observe(viewLifecycleOwner) {
-                if(!it.isNullOrEmpty()){
-                    binding.ivShoppingImage.load(it) {
-                        crossfade(true)
-                        placeholder(R.drawable.ic_baseline_add_to_photos_24)
-                        error(R.drawable.ic_baseline_add_to_photos_24)
-                    }
+            setFragmentResultListener("selected_image") { requestKey, bundle ->
+                // We use a String here, but any type that can be put in a Bundle is supported
+                val result = bundle.getString("bundle_selected_image")
+                binding.ivShoppingImage.load(result) {
+                    crossfade(true)
+                    placeholder(R.drawable.ic_baseline_add_to_photos_24)
+                    error(R.drawable.ic_baseline_add_to_photos_24)
                 }
+                // Do something with the result
             }
+//            galleryViewModel.selectedImageUrl.observe(viewLifecycleOwner) {
+//                if(!it.isNullOrEmpty()){
+//                    binding.ivShoppingImage.load(it) {
+//                        crossfade(true)
+//                        placeholder(R.drawable.ic_baseline_add_to_photos_24)
+//                        error(R.drawable.ic_baseline_add_to_photos_24)
+//                    }
+//                }
+//            }
         }
         galleryViewModel.insertShoppingItem.observe(viewLifecycleOwner) {
             it.contentIfHandled()?.let { result ->
@@ -96,8 +107,8 @@ class NewCartItemFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 }
