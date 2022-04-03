@@ -2,6 +2,7 @@ package com.example.androidshoptest.data.local
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.filters.MediumTest
+import app.cash.turbine.test
 import com.example.androidshoptest.db.AppDatabase
 import com.example.androidshoptest.db.CartDao
 import com.example.androidshoptest.getOrAwaitValue
@@ -10,6 +11,7 @@ import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.test.runBlockingTest
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -18,6 +20,7 @@ import org.junit.Rule
 import org.junit.Test
 import javax.inject.Inject
 import javax.inject.Named
+import kotlin.time.ExperimentalTime
 
 @ExperimentalCoroutinesApi
 @MediumTest
@@ -32,7 +35,7 @@ class ShoppingDaoTest {
 
     @Inject
     @Named("test_db") //need named annotation to tell hilt to where to inject from
-    lateinit var database:AppDatabase
+    lateinit var database: AppDatabase
     private lateinit var dao: CartDao
 
     @Before
@@ -59,31 +62,45 @@ class ShoppingDaoTest {
         database.close()
     }
 
+    @OptIn(ExperimentalTime::class)
     @Test
     fun insertShoppingItem() = runTest {
         val shoppingItem = CartItem("itemTest", 10, 1F, "url", 1)
         dao.insertShoppingItem(shoppingItem)
-        val allShoppingItem = dao.observeAllShoppingItems().getOrAwaitValue()
-        assertThat(allShoppingItem).contains(shoppingItem)
+        dao.observeAllShoppingItems().test {
+            val result=expectItem()
+            assertThat(result).contains(shoppingItem)
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
+    @OptIn(ExperimentalTime::class)
     @Test
     fun deleteShoppingItem() = runTest {
         val shoppingItem = CartItem("itemTest", 10, 1F, "url", 1)
         dao.insertShoppingItem(shoppingItem)
         dao.deleteShoppingItem(shoppingItem)
-        val allShoppingItem = dao.observeAllShoppingItems().getOrAwaitValue()
-        assertThat(allShoppingItem).doesNotContain(shoppingItem)
+        dao.observeAllShoppingItems().test {
+            val result=expectItem()
+            assertThat(result).doesNotContain(shoppingItem)
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
+    @OptIn(ExperimentalTime::class)
     @Test
     fun observeAllShoppingItem() = runTest {
         val shoppingItem = CartItem("itemTest", 10, 1F, "url", 1)
         dao.insertShoppingItem(shoppingItem)
-        val allShoppingItem = dao.observeAllShoppingItems().getOrAwaitValue()
-        assertThat(allShoppingItem).hasSize(1)
+        dao.observeAllShoppingItems().test {
+            val result=expectItem()
+            assertThat(result).hasSize(1)
+            cancelAndIgnoreRemainingEvents()
+        }
+
     }
 
+    @OptIn(ExperimentalTime::class)
     @Test
     fun observeTotalPrice() = runTest {
         val shoppingItem1 = CartItem("itemTest1", 10, 2F, "url", 1)
@@ -93,7 +110,10 @@ class ShoppingDaoTest {
         dao.insertShoppingItem(shoppingItem2)
         dao.insertShoppingItem(shoppingItem3)
 
-        val totalPrice = dao.observeTotalPrice().getOrAwaitValue()
-        assertThat(totalPrice).isEqualTo(10 * 2 + 10 * 2 + 10 * 2)
+        dao.observeTotalPrice().test {
+            val result=expectItem()
+            assertThat(result).isEqualTo(10 * 2 + 10 * 2 + 10 * 2)
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 }

@@ -8,6 +8,7 @@ import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.contrib.RecyclerViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.filters.MediumTest
+import app.cash.turbine.test
 import com.example.androidshoptest.R
 import com.example.androidshoptest.data.remote.MockCartRepositoryAndroidTest
 import com.example.androidshoptest.data.remote.MockGalleryRepositoryAndroidTest
@@ -22,12 +23,14 @@ import com.google.common.truth.Truth.assertThat
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.runBlocking
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito
 import javax.inject.Inject
 import javax.inject.Named
+import kotlin.time.ExperimentalTime
 
 @MediumTest
 @HiltAndroidTest
@@ -48,8 +51,9 @@ class CartListFragmentTest {
         hiltRule.inject()
     }
 
+    @OptIn(ExperimentalTime::class)
     @Test
-    fun swipeShoppingItem_deleteItemInDb(){
+    fun swipeShoppingItem_deleteItemInDb()=runBlocking{
         var testViewModel= CartListViewModel(MockCartRepositoryAndroidTest())
         val shoppingItem = CartItem("test",1,1f,"testurl",1)
         launchFragmentInHiltContainer<CartFragment>(
@@ -65,7 +69,11 @@ class CartListFragmentTest {
                 ViewActions.swipeLeft()
             )
         )
-        assertThat(testViewModel.cartItems.getOrAwaitValue()).isEmpty()
+        testViewModel.cartItems.test {
+            val result=expectItem()
+            assertThat(result).isEmpty()
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
     @Test

@@ -3,6 +3,7 @@ package com.example.androidshoptest.repository.cart
 import androidx.lifecycle.LiveData
 import com.example.androidshoptest.db.CartDao
 import com.example.androidshoptest.model.entity.CartItem
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 open class CartRepositoryImpl@Inject constructor(
@@ -16,11 +17,11 @@ open class CartRepositoryImpl@Inject constructor(
         shoppingDao.deleteShoppingItem(shoppingItem)
     }
 
-    override fun observeAllShoppingItem(): LiveData<List<CartItem>> {
+    override fun observeAllShoppingItem(): Flow<List<CartItem>> {
        return shoppingDao.observeAllShoppingItems()
     }
 
-    override fun observeTotalPrice(): LiveData<Float> {
+    override fun observeTotalPrice(): Flow<Float> {
         return shoppingDao.observeTotalPrice()
     }
 }

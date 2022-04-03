@@ -8,6 +8,7 @@ import androidx.test.espresso.Espresso.*
 import androidx.test.espresso.action.ViewActions
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.filters.MediumTest
+import app.cash.turbine.test
 import com.example.androidshoptest.R
 import com.example.androidshoptest.data.remote.MockCartRepositoryAndroidTest
 import com.example.androidshoptest.data.remote.MockGalleryRepositoryAndroidTest
@@ -25,9 +26,11 @@ import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mockito.*
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.runBlocking
 import org.mockito.Mockito
 import javax.inject.Inject
 import javax.inject.Named
+import kotlin.time.ExperimentalTime
 
 
 @HiltAndroidTest
@@ -57,8 +60,9 @@ class NewCartItemFragmentTest {
         )
     }
 
+    @OptIn(ExperimentalTime::class)
     @Test
-    fun clickInsertIntoDb_itemInsertedIntoDb() {
+    fun clickInsertIntoDb_itemInsertedIntoDb()=runBlocking {
         launchFragmentInHiltContainer<NewCartItemFragment>(
             fragmentFactory = fragmentFactory
         ) {
@@ -69,9 +73,12 @@ class NewCartItemFragmentTest {
         onView(withId(R.id.etShoppingItemAmount)).perform(ViewActions.replaceText("5"))
         onView(withId(R.id.etShoppingItemPrice)).perform(ViewActions.replaceText("5.5"))
         onView(withId(R.id.btnAddShoppingItem)).perform(ViewActions.click())
-
-        assertThat(testViewModel.getShoppingItems.getOrAwaitValue())
-            .contains(CartItem("shopping item", 5, 5.5f, ""))
+        testViewModel.getShoppingItems.test {
+            val result=expectItem()
+            assertThat(result)
+                .contains(CartItem("shopping item", 5, 5.5f, ""))
+            cancelAndIgnoreRemainingEvents()
+        }
     }
 
     @Test

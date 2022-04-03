@@ -5,14 +5,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.androidshoptest.model.entity.CartItem
 import com.example.androidshoptest.repository.cart.CartRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 @HiltViewModel
 class CartListViewModel @Inject constructor(
     private val cartRepo: CartRepository
 ): ViewModel(){
-    val cartItems=cartRepo.observeAllShoppingItem()
-    val cartTotalPrice=cartRepo.observeTotalPrice()
+    val cartItems: Flow<List<CartItem>> =cartRepo.observeAllShoppingItem()
+    val cartTotalPrice:Flow<Float> =cartRepo.observeTotalPrice()
     fun deleteCartItem(cartItem: CartItem){
         viewModelScope.launch {
             cartRepo.deleteShoppingItem(cartItem)

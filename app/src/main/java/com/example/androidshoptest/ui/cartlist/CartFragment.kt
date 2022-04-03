@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.androidshoptest.databinding.FragmentCartBinding
 import com.example.androidshoptest.ui.adapter.CartItemAdapter
+import com.example.androidshoptest.util.collectLifeCycleFlow
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -58,10 +59,10 @@ class CartFragment() : Fragment() {
         }
     }
     private fun initObservers(){
-        cartListViewModel.cartItems.observe(viewLifecycleOwner){
+        requireActivity().collectLifeCycleFlow(cartListViewModel.cartItems){
             cartAdapter.submitList(it)
         }
-        cartListViewModel.cartTotalPrice.observe(viewLifecycleOwner){
+        requireActivity().collectLifeCycleFlow(cartListViewModel.cartTotalPrice){
             binding.tvShoppingItemPrice.text="$it$"
         }
     }
