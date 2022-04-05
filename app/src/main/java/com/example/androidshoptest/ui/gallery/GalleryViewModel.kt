@@ -27,8 +27,8 @@ class GalleryViewModel @Inject constructor(
     private val galleryRepo: GalleryRepository,
     private val cartRpo: CartRepository
 ) : ViewModel() {
-    val getShoppingItems = cartRpo.observeAllShoppingItem()
-    val totalPrice = cartRpo.observeTotalPrice()
+    val getShoppingItems = cartRpo.observeAllShoppingItem().distinctUntilChanged()//.filterNotNull()
+    val totalPrice = cartRpo.observeTotalPrice().distinctUntilChanged()//.filterNotNull()
 
 
     val galleryIntent = Channel<GalleryIntent<String>>(Channel.UNLIMITED)
