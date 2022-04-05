@@ -1,5 +1,6 @@
 package com.example.androidshoptest.ui.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -14,6 +15,7 @@ class CartItemAdapter: ListAdapter<CartItem, CartItemAdapter.CartViewHolder>(Car
     inner class CartViewHolder(private val binding:CartItemBinding):RecyclerView.ViewHolder(binding.root){
         fun bind(position: Int){
             binding.cartItem=currentList[position]
+            Log.e("CartItemAdapter","${currentList[position].imageUrl}")
             binding.executePendingBindings()
         }
     }

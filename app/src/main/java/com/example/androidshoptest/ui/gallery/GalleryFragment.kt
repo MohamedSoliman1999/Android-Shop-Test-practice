@@ -86,8 +86,8 @@ class GalleryFragment : Fragment(), GalleryReactors {
             }
         }
     }
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 

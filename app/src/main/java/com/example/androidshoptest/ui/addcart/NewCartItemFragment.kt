@@ -49,22 +49,18 @@ class NewCartItemFragment : Fragment() {
             setFragmentResultListener("selected_image") { requestKey, bundle ->
                 // We use a String here, but any type that can be put in a Bundle is supported
                 val result = bundle.getString("bundle_selected_image")
-                binding.ivShoppingImage.load(result) {
-                    crossfade(true)
-                    placeholder(R.drawable.ic_baseline_add_to_photos_24)
-                    error(R.drawable.ic_baseline_add_to_photos_24)
-                }
+                galleryViewModel.selectedImageUrl.postValue(result)
                 // Do something with the result
             }
-//            galleryViewModel.selectedImageUrl.observe(viewLifecycleOwner) {
-//                if(!it.isNullOrEmpty()){
-//                    binding.ivShoppingImage.load(it) {
-//                        crossfade(true)
-//                        placeholder(R.drawable.ic_baseline_add_to_photos_24)
-//                        error(R.drawable.ic_baseline_add_to_photos_24)
-//                    }
-//                }
-//            }
+            galleryViewModel.selectedImageUrl.observe(viewLifecycleOwner) {
+                if(!it.isNullOrEmpty()){
+                    binding.ivShoppingImage.load(it) {
+                        crossfade(true)
+                        placeholder(R.drawable.ic_baseline_add_to_photos_24)
+                        error(R.drawable.ic_baseline_add_to_photos_24)
+                    }
+                }
+            }
         }
         galleryViewModel.insertShoppingItem.observe(viewLifecycleOwner) {
             it.contentIfHandled()?.let { result ->
@@ -107,8 +103,8 @@ class NewCartItemFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onDestroy() {
+        super.onDestroy()
         _binding = null
     }
 }

@@ -4,6 +4,7 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.MediumTest
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import com.example.androidshoptest.di.DatabaseModuleTesting
 import com.example.androidshoptest.di.RepositoryModule
 import com.example.androidshoptest.di.RepositoryModuleTest
@@ -31,10 +32,10 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Inject
 
 @MediumTest
-@RunWith(AndroidJUnit4::class)
+@RunWith(AndroidJUnit4ClassRunner::class)
 @HiltAndroidTest
 @UninstallModules(RepositoryModuleTest::class,DatabaseModuleTesting::class,UiModule::class)
-class GalleryRepositoryTest : TestCase() {
+class GalleryRepositoryTest {
     @get:Rule
     var instantTaskExecutorRule = InstantTaskExecutorRule()
     @get:Rule
