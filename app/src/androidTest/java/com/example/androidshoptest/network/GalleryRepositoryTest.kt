@@ -45,8 +45,7 @@ class GalleryRepositoryTest {
     lateinit var repo: GalleryRepositoryImpl
 
     @Before
-    public override fun setUp() {
-        super.setUp()
+    fun setUp() {
         hiltRule.inject()
         repo = GalleryRepositoryImpl(ApplicationProvider.getApplicationContext(),api)
     }
