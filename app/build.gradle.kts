@@ -89,7 +89,6 @@ dependencies {
 
 //    hilt
     implementation("com.google.dagger:hilt-android:2.41")
-    androidTestImplementation("androidx.test:rules:1.4.1-alpha05")
     kapt("com.google.dagger:hilt-android-compiler:2.38.1")
 //    Navigation
     val nav_version = "2.4.1"
@@ -199,12 +198,12 @@ dependencies {
     androidTestImplementation ("androidx.arch.core:core-testing:2.1.0")
     androidTestImplementation ("com.google.truth:truth:1.1.3")
     androidTestImplementation ("androidx.test.ext:junit:1.1.3")
-    androidTestImplementation ("androidx.test.espresso:espresso-core:3.5.0-alpha05")
+    androidTestImplementation ("androidx.test.espresso:espresso-core:3.4.0")
     androidTestImplementation ("org.mockito:mockito-core:4.3.1")
     androidTestImplementation ("org.mockito:mockito-android:4.3.1")
-    debugImplementation ("androidx.fragment:fragment-testing:1.5.0-alpha03")
+    debugImplementation ("androidx.fragment:fragment-testing:1.5.0-beta01")
     androidTestImplementation ("app.cash.turbine:turbine:0.5.2")
-    androidTestImplementation ("androidx.test.espresso:espresso-contrib:3.5.0-alpha05"){
+    androidTestImplementation ("androidx.test.espresso:espresso-contrib:3.3.0"){
         exclude(group = "org.checkerframework", module = "checker")
     }
     //hilt
